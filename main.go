@@ -3,61 +3,15 @@ package main
 import (
 	"fmt"
 
+	"github.com/Crypto89/mpluscheck/models"
+
 	"encoding/json"
 	"sync"
 )
 
-var dungeons = []string{
-	"black-rook-hold",
-	"cathedral-of-eternal-night",
-	"court-of-stars",
-	"darkheart-thicket",
-	"eye-of-azshara",
-	"halls-of-valor",
-	"maw-of-souls",
-	"neltharions-lair",
-	"return-to-karazhan-lower",
-	"return-to-karazhan-upper",
-	"the-arcway",
-	"vault-of-the-wardens",
-}
 
-// Realm is a collection of dungeons
-type Realm struct {
-	Name     string     `json:"name"`
-	Dungeons []*Dungeon `json:"dungeons"`
 
-	lock sync.RWMutex
-}
-
-// Character describes a wow character
-type Character struct {
-	Name string `json:"name"`
-}
-
-// Scrape a realm
-func (r *Realm) Scrape() {
-	var wg sync.WaitGroup
-
-	for _, name := range dungeons {
-		wg.Add(1)
-		dungeon := &Dungeon{
-			Name:  name,
-			realm: r,
-		}
-
-		fmt.Printf("Scraping dungeon: %s\n", name)
-		go func() {
-			dungeon.Scrape()
-			r.addDungeon(dungeon)
-			wg.Done()
-		}()
-	}
-
-	wg.Wait()
-}
-
-func (r *Realm) addDungeon(dungeon *Dungeon) {
+func (r *models.Realm) addDungeon(dungeon *models.Dungeon) {
 	r.lock.Lock()
 	defer r.lock.Unlock()
 
@@ -65,7 +19,7 @@ func (r *Realm) addDungeon(dungeon *Dungeon) {
 }
 
 func main() {
-	realm := &Realm{
+	realm := &models.Realm{
 		Name: "tarren-mill",
 	}
 

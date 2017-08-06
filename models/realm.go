@@ -7,7 +7,8 @@ type Realm struct {
 	Name     string     `json:"name"`
 	Dungeons []*Dungeon `json:"dungeons"`
 
-	lock sync.RWMutex
+	lock   sync.RWMutex
+	region *Region
 }
 
 // NewRealm returns a new realm instance

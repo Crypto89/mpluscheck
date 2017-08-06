@@ -7,12 +7,16 @@ import (
 	"github.com/Crypto89/mpluscheck/models"
 )
 
-type scraper struct {
-	realm *models.Realm
+type Scraper struct {
+	region *models.Region
+}
+
+func NewScraper() *Scraper {
+	return &Scraper{}
 }
 
 // Scrape a realm
-func (s *scraper) Scrape() {
+func (s *Scraper) Scrape() {
 	var wg sync.WaitGroup
 
 	for _, name := range dungeons {
